@@ -1,0 +1,17 @@
+.big, .medium{
+    border: 2px solid black;
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
+}
+
+.medium{
+    display: flex;
+    flex-direction: row;
+}
+
+.small{
+    border: 2px solid black;
+    width: 80px;
+    height: 80px;
+}
