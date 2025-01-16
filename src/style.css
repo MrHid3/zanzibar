@@ -5,6 +5,10 @@
     margin: 0 auto;
 }
 
+.big{
+    border-width: 2px 0 2px 0;
+}
+
 .medium{
     display: flex;
     flex-direction: row;
@@ -14,4 +18,15 @@
     border: 2px solid black;
     width: 80px;
     height: 80px;
+    border-width: 0 2px 0 2px;
+    text-align: center;
+    font-size: 55px;
+}
+
+.disabled{
+    background-color: darkgray;
+}
+
+.selected{
+    background-color: cyan;
 }
