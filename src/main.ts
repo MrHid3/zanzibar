@@ -1,5 +1,9 @@
 import Row from "./Row";
 
+console.log("proszę poczekać aż wszystkie słowa zostaną zrequestowane, to trochę potrwa");
+console.log("słowa i definicję pojawią się tutaj gdy zostaną znalezione")
+console.log("ostatnie słowo to rozwiązanie")
+
 async function requestWord() : Promise<string>{
     let word = "jaka firma?"
     while(word.length > 7){
@@ -15,14 +19,16 @@ async function requestDefintion() : Promise<string[]>{
     let definition = undefined;
     let word = "skibidi toilet";
     while(typeof(definition) == "undefined") {
-        word = await requestWord();
-        let reqDef = await fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${import.meta.env.VITE_DICTIONARY_KEY}`);
-        // @ts-ignore
-        reqDef = await reqDef.json();
-        if(typeof(await reqDef) != "undefined"){
-            //@ts-ignore
-            definition = await reqDef[0]["shortdef"];
-        }
+        try{
+            word = await requestWord();
+            let reqDef = await fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${import.meta.env.VITE_DICTIONARY_KEY}`);
+            // @ts-ignore
+            reqDef = await reqDef.json();
+            if(typeof(await reqDef) != "undefined"){
+                //@ts-ignore
+                definition = await reqDef[0]["shortdef"];
+            }
+        }catch(err){}
     }
     return [word, definition];
 }
@@ -30,9 +36,7 @@ async function requestDefintion() : Promise<string[]>{
 
 
 let big = document.querySelector(".big") as Element;
-// let main = "gals";
 let rows : Row[] = [];
-// let words = [["ligma", "steve job died of this disease"], ["man", "ham aslume protagonist"], ["jonkler", "ham aslume antagonist"], ["balls", "officer"]]
 let main = await requestWord();
 
 //powodzenia testować coś z tym
@@ -57,6 +61,6 @@ console.log(main)
 for(let i = 0; i < main.length; i++){
     let medium = document.createElement("div");
     medium.classList.add("medium");
-    rows.push(new Row(medium, words[i][0], i))
+    rows.push(new Row(medium, words[i][0], i, main))
     big.appendChild(medium);
 }
