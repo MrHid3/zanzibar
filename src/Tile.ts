@@ -22,7 +22,7 @@ export default class Tile {
         }
         document.addEventListener("keydown", this.reactToKeys.bind(this));
         this.div.addEventListener("click", () => {
-            if(this.isSelected || this.isDisabled || this.isShown) return;
+            if(this.isSelected || (this.isDisabled && !this.isShown)) return;
             document.dispatchEvent(new Event("reset"));
             this.isSelected = true;
             this.div.classList.add("selected");
@@ -42,16 +42,16 @@ export default class Tile {
 
     async reactToKeys(e: KeyboardEvent) {
         if(!this.isSelected) return;
-        if(e.key == "ArrowRight" && this.id != this.parent.correctWord.length - 1 && !this.parent.tiles[this.id + 1].isDisabled){
+        if(e.key == "ArrowRight" && this.id != this.parent.correctWord.length - 1){
             await new Promise(r => setTimeout(r, 20));
             this.parent.tiles[this.id + 1].div.click();
-        }else if(e.key == "ArrowLeft" && this.id != 0 && !this.parent.tiles[this.id - 1].isDisabled){
+        }else if(e.key == "ArrowLeft" && this.id != 0){
             await new Promise(r => setTimeout(r, 20));
             this.parent.tiles[this.id - 1].div.click();
-        }else if(e.key == "ArrowUp" && this.parent.id != 0  && !document.querySelector(".big")!.children[this.parent.id - 1].children[this.id].classList.contains("disabled")){
+        }else if(e.key == "ArrowUp" && this.parent.id != 0){
             await new Promise(r => setTimeout(r, 20));
             document.querySelector(".big")!.children[this.parent.id - 1].children[this.id].click();
-        }else if(e.key == "ArrowDown" && this.parent.id != document.querySelector(".big")!.children.length - 1 && !document.querySelector(".big")!.children[this.parent.id + 1].children[this.id].classList.contains("disabled")){
+        }else if(e.key == "ArrowDown" && this.parent.id != document.querySelector(".big")!.children.length - 1){
             await new Promise(r => setTimeout(r, 20));
             document.querySelector(".big")!.children[this.parent.id + 1].children[this.id].click();
         }
